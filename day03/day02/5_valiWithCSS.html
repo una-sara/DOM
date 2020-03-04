@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+ <head>
+	<meta charset="UTF-8">
+	<title>实现带样式的表单验证</title>
+	<link rel="Stylesheet" href="css/5.css" />
+ </head>
+ <body>
+	<form id="form1">
+		<h2>增加管理员</h2>
+		<table>
+			<tr>
+				<td>姓名：</td>
+        <td>
+					<input name="username" class=""/>
+					<span>*</span>
+				</td>
+				<td>
+					<div class="vali_info">
+						10个字符以内的字母、数字或下划线的组合
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td>
+					<input type="password" name="pwd"/>
+					<span>*</span>
+				</td>
+				<td>
+					<div class="vali_info">6位数字</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="2">
+          <input type="submit" value="保存"/>
+          <input type="reset" value="重填"/>
+				</td>
+			</tr>				
+	    </table>
+	</form>
+<script>
+//1. 查找触发事件的元素
+//查找姓名文本框: 
+var txtName=document.getElementsByName("username")[0];//[ input ]
+var txtPwd=document.getElementsByName("pwd")[0];
+console.log(txtName);
+console.log(txtPwd);
+//2. 绑定事件处理函数
+//当姓名文本框获得焦点时
+txtName.onfocus=txtPwd.onfocus=function(){
+	var txt=this;
+	//3. 查找要修改的元素
+	//找到txt旁边的div: 
+	var div=txt.parentNode//txt的父级td
+						 //的下一个兄弟td
+						 .nextElementSibling
+						 .children[0];//的第1个孩子
+	//4. 修改元素
+	div.className="";//清除其class
+	//为当前按钮穿边框加粗的class:txt_focus
+	txt.className="txt_focus";
+}
+/*失去焦点*/
+//1. 查找触发事件的元素
+//2. 绑定事件处理函数
+//当 姓名文本框 失去焦点时
+txtName.onblur=function(){
+	//调用vali函数，传入当前要验证的文本框和正则表达式
+	vali(this,/^\w{1,10}$/);
+}
+//vali: 封装用任意正则表达式，验证任意一个文本框的统一方法。
+//因为vali执行时，需要知道要验证哪个文本框以及验证规则是什么，所以需要2个参数
+function vali(txt,reg){
+	//去掉自己身上加粗的边框
+	txt.className="";
+	//3. 查找要修改的元素
+	//找到txt旁边的div: 
+	var div=txt.parentNode
+						 .nextElementSibling
+						 .children[0];
+	//4. 修改元素
+	//如果用reg验证文本框的内容，通过
+	if(reg.test(txt.value))
+		//就给旁边div穿vali_success衣服
+		div.className="vali_success";
+	else//否则,如果没有验证通过，就穿vali_fail
+		div.className="vali_fail";
+}
+txtPwd.onblur=function(){
+	vali(this,/^\d{6}$/)
+}
+</script>
+ </body>
+</html>

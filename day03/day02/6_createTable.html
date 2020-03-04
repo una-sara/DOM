@@ -1,0 +1,91 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>动态创建表格</title>
+<meta charset="utf-8" />
+<style>
+	table{width:600px; border-collapse:collapse;
+		text-align:center;
+	}
+	td,th{border:1px solid #ccc}
+  thead td{font-weight:bold; height:30px}
+</style>
+
+</head>
+<body>
+	<div id="data"></div>
+<script>
+var json=[
+  {"ename":"Tom", "salary":11000, "age":25},
+  {"ename":"John", "salary":13000, "age":28},
+  {"ename":"Mary", "salary":12000, "age":25}
+];
+//创建table
+var table=document.createElement("table");
+
+/*//创建thead
+var thead=document.createElement("thead");
+//将thead加入table
+table.appendChild(thead);*/
+var thead=table.createTHead();
+//创建tr，并将tr加入thead
+/*var tr=document.createElement("tr");
+thead.appendChild(tr);*/
+var tr=thead.insertRow();
+//获得json中第一个人作为标本
+var firstEmp=json[0];
+//遍历第一个人的每个属性:
+for(var key in firstEmp){
+  //每遍历一个属性，就创建一个th加入tr中
+  /*var th=document.createElement("th");
+  tr.appendChild(th);*/
+  var th=tr.insertCell();
+  //设置th的内容为当前属性名
+  th.innerHTML=key;
+}
+//在表头行的格添加结束后，额外再多添加一个td
+var td=tr.insertCell();
+td.innerHTML="delete";
+/*//创建tbody
+var tbody=document.createElement("tbody");
+//将tbody加入table
+table.appendChild(tbody);*/
+var tbody=table.createTBody();
+//遍历json中每个员工对象
+for(var emp of json){
+//每遍历一个员工对象就创建一个tr，并加入tbody
+  /*var tr=document.createElement("tr");
+  tbody.appendChild(tr);*/
+  var tr=tbody.insertRow();
+  //遍历当前员工对象emp的每个属性值
+  for(var key in emp){
+    //每遍历一个属性，就创建一个td,并加入tr
+    /*var td=document.createElement("td");
+    tr.appendChild(td);*/
+    var td=tr.insertCell();
+    //设置td的内容为当前属性值
+    td.innerHTML=emp[key];
+  }
+  //在当前表体行添加完td后，再额外添加一个td
+  var td=tr.insertCell();
+  //在td中放一个<button>元素
+  td.innerHTML=`<button>x</button>`;
+  //获得td下唯一一个button元素，绑定单击事件
+  td.children[0].onclick=function(){
+    var btn=this;
+    //删除当前button所在的tr
+    var tr=btn.parentNode.parentNode;
+                //td        tr
+    var ename=?;
+    //确认是否继续删除:var bool=confirm()
+    if(confirm(`是否继续删除 ${ename}?`))
+      table.deleteRow(tr.rowIndex);
+  }
+}
+
+//将table加入div
+document.getElementById("data")
+        .appendChild(table);
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>二级联动列表</title>
+<meta charset="utf-8" />
+<style>
+	.hide{ display: none; }
+</style>
+
+
+</head>
+<body>
+	<select name="provs">
+		<option>—请选择—</option><!--0-->
+		<option>北京市</option><!--1-->
+		<option>天津市</option>
+		<option>河北省</option>
+	</select>
+	
+	<select name="cities" class="hide">
+    <!--<option>东城区</option>-->
+	</select>
+<script>
+/*实现“省”和“市”的级联下拉列表*/
+var cities=[
+  [//北京市
+    {"name":'东城区',"value":101},
+    {"name":'西城区',"value":102},
+    {"name":'海淀区',"value":103},
+    {"name":'朝阳区',"value":104}
+  ],
+  [
+    {"name":'河东区',"value":201},
+    {"name":'河西区',"value":202},
+    {"name":'南开区',"value":303}
+  ],
+  [
+    {"name":'石家庄市',"value":301},
+    {"name":'廊坊市',"value":302},
+    {"name":'保定市',"value":303},
+    {"name":'唐山市',"value":304},
+    {"name":'秦皇岛市',"value":304}
+  ]
+];
+
+//1. 查找触发事件的元素
+//查找name属性值为provs的一个元素
+var selProvs=document.getElementsByName("provs")[0];
+//2. 绑定事件处理函数
+//当select元素的选中项发生改变时，自动触发
+selProvs.onchange=function(){
+  var sel=this;//获得当前select
+  //获得当前选中项的下标i
+  var i=sel.selectedIndex;
+  //查找第二个select
+  var selCts=document.getElementsByName("cities")[0];
+  if(i>0){//如果i>0时
+    //才i-1修正与cities数组中的下标位置一致
+    i--;
+    //去cities二维数组中获得i位置的子数组
+    var cts=cities[i];
+    var frag=//创建文档片段
+      document.createDocumentFragment();
+    /*var opt=//先添加请选择，并加入frag中
+      document.createElement("option");
+    opt.innerHTML="-请选择-"*/
+    frag.appendChild(
+        new Option("-请选择-"));
+    //遍历cts子数组中每个城市对象
+    for(var c of cts){
+      /*//每遍历一个城市就创建一个<option>
+      var opt=
+        document.createElement("option")
+      //设置opt的内容为当前城市对象c的name
+      opt.innerHTML=c.name;*/
+      //将opt临时加入frag中
+      frag.appendChild(
+        new Option(c.name));
+    }
+    //先清除第二个select的所有内容
+    selCts.innerHTML="";
+    //将文档片段frag整体添加到第二个select下
+    selCts.appendChild(frag);
+    //将第二个select显示出来
+    selCts.className="";
+  }else{//i==0  -请选择-
+    selCts.className="hide";
+  }
+}
+</script>
+</body>
+</html>
