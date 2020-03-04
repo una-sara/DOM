@@ -1,0 +1,63 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>读取并修改元素的属性</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/3.css" />
+<style></style>
+
+</head>
+<body>
+	<h2>实现多标签页效果</h2>
+  <div class="tabs">
+    <ul id="tab">
+      <li><a href="javascript:;" data-toggle="tab" data-target="#content1">10元套餐</a></li>
+      <li><a href="javascript:;" data-toggle="tab" data-target="#content2">30元套餐</a></li>
+      <li><a href="javascript:;" data-toggle="tab" data-target="#content3">50元包月</a></li>
+    </ul>
+    <div id="container">
+      <div id="content1">
+        10元套餐详情：<br />&nbsp;每月套餐内拨打100分钟，超出部分2毛/分钟
+      </div>
+      <div id="content2">
+        30元套餐详情：<br />&nbsp;每月套餐内拨打300分钟，超出部分1.5毛/分钟
+      </div>
+      <div id="content3">
+        50元包月详情：<br />&nbsp;每月无限量随心打
+      </div>
+    </div>
+  </div>
+<script>
+//让id为content1的div在最上层
+//<div style="z-index:10">
+document.getElementById("content1")
+  .style.zIndex="10";
+//1. 查找触发事件的元素
+//查找data-toggle属性为tab的所有元素
+var tabs=document.querySelectorAll(
+  "[data-toggle=tab]");
+//2. 绑定事件
+for(var tab of tabs){//遍历每个标签
+  //为当前tab绑定单击事件
+  tab.onclick=function(){
+    var tab=this;
+    //3. 查找要修改的元素
+    //4. 修改元素
+    //查找id为container下的所有div
+    var divs=document.querySelectorAll(
+      "#container>div");
+    for(var div of divs){//遍历每个div
+      //清除当前div的zIndex属性
+      div.style.zIndex="";
+    }
+    //获得当前tab对应的div的id
+    var id=tab.getAttribute("data-target")
+         //tab.dataset.target;
+    //再找到当前tab对应的div
+    var div=document.querySelector(id);
+    div.style.zIndex=10;//设置其zIndex为10
+  }
+}
+</script>
+</body>
+</html>
