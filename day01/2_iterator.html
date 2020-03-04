@@ -1,0 +1,47 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>遍历节点树</title>
+		<meta charset="utf-8"/>
+		
+	</head>
+	<body>
+		<span>Hello World !</span>
+		<ul id="nav">
+			<li>{{uname}}</li>
+			<li>综艺
+				<ul>
+					<li>跑男</li>
+					<li>{{uname}}</li>
+					<li>极限</li>
+				</ul>
+			</li>
+			<li>剧集</li>
+		</ul>	
+<script>
+//定义一个函数，用于遍历任意给定父元素parent下的所有后代元素
+function getChildren(parent){
+	//1. 先仅遍历当前父元素的直接子元素
+	//1.1获得指定的父元素parent的直接子元素
+	var children=parent.children;
+	//1.2遍历当前父元素的所有直接子元素并输出元素名
+	for(var child of children){
+		//console.log(child.nodeName);
+		if(child.innerHTML==="{{uname}}")
+			child.innerHTML=uname;
+		//2. 对每个直接子元素调用和父元素完全相同的操作
+		arguments.callee(child);
+	}
+}
+
+var uname="dingding";
+
+//当 window 加载完 才自动执行
+window.onload=function(){
+	//遍历body元素下的所有后代元素
+	getChildren(document.body)
+}
+
+</script>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>DOM Tree</title>
+		<meta charset="utf-8" />
+		
+	</head>
+	<body>
+		<span id="s1">Hello</span>
+		<h1>标题一</h1>
+<script>
+		//当 window 加载后——事件
+window.onload=function(){
+	//希望等网页加载后，再执行以下代码，以确保所有网页中的内容都已经可用
+	//获得body元素
+	var body=document.body;
+	console.log(body.nodeName);
+	//获得body下所有直接子元素，应该只有三个
+	var children=body.children;
+	console.log(children);
+	//获得body下第一个直接子元素span
+	var span=body.firstElementChild;
+	console.log(span);
+	//获得body下最后一个直接子元素script
+	var script=body.lastElementChild;
+	console.log(script);
+	//获得h1元素，可以是: 
+	var h1=//span.nextElementSibling;//span的弟弟
+	//script.previousElementSibling;//script的哥哥
+	children[1]//body的第二个孩子
+	console.log(h1);
+}
+</script>
+	</body>
+</html>

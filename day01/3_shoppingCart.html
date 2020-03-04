@@ -1,0 +1,115 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>使用Selector API实现购物车客户端计算</title>
+<meta charset="utf-8" />
+<style>
+	table{width:600px; text-align:center;
+		border-collapse:collapse;
+	}
+	td,th{border:1px solid black}
+	td[colspan="3"]{text-align:right;}
+</style>
+
+</head>
+<body>
+	<table id="data">
+		<thead>
+			<tr>
+				<th>商品名称</th>
+				<th>单价</th>
+				<th>数量</th>
+				<th>小计</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>iPhone6</td>
+				<td>¥4488.00</td>
+        <td>
+          <button>-</button>
+          <span>1</span>
+          <button>+</button>
+        </td>
+				<td>¥4488.00</td>
+			</tr>
+			<tr>
+				<td>iPhone6 plus</td>
+				<td>¥5288.00</td>
+				<td>
+          <button>-</button>
+          <span>1</span>
+          <button>+</button>
+				</td>
+				<td>¥5288.00</td>
+			</tr>
+			<tr>
+				<td>iPad Air 2</td>
+				<td>¥4288.00</td>
+        <td>
+          <button>-</button>
+          <span>1</span>
+          <button>+</button>
+        </td>
+				<td>¥4288.00</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3">Total: </td>
+				<td>¥14064.00</td>
+			</tr>
+		</tfoot>
+	</table>
+<script>
+//1. 数量变化
+//1. 查找触发事件的元素
+//查找table: id为data
+var table=document.getElementById("data");
+var btns=//查找table下所有button
+  table.getElementsByTagName("button");
+console.log(btns);//打桩
+//2. 绑定事件处理函数
+//事件: 网页内容的状态变化
+//处理函数: 当事件发生时，由触发事件的元素自动执行的函数
+//绑定事件处理函数:元素.on事件名=处理函数;
+//比如: btn.onclick=function(){ 喊疼！}
+//遍历btns中每个找到的btn
+for(var btn of btns){
+	//每遍历到一个btn，就给当前btn绑定单击事件处理函数:当当前按钮被单击时自动执行一项任务
+	btn.onclick=function(){
+		//问题: 不能用全局变量获得当前按钮本身
+		//解决: *****在处理函数中应该用this关键字获得将来触发事件的当前元素本身*****
+		var btn=this;
+		//3. 查找要修改的元素
+		//查找当前按钮的爹的第2个孩子
+		var span=btn.parentNode.children[1];
+		//4. 修改元素
+		//获得span的内容，转为整数
+		var n=parseInt(span.innerHTML);
+		if(btn.innerHTML=="+")//如果当前按钮是+
+			n++;//数量就+1
+		else if(n>1)//否则如果当前按钮是-,且n>1
+			n--;//数量才能-1
+		//将修改后的n，再放回span中
+		span.innerHTML=n;
+
+		//计算小计:
+		//获得当前按钮的父元素的前一个兄弟的内容转为浮点数
+		var price=parseFloat(
+			btn.parentNode
+					.previousElementSibling
+					.innerHTML
+					.slice(1)//去掉开头的¥
+		);
+		//计算小计=单价*数量
+		var subtotal=price*n;
+		//查找当前按钮的爹的下一个兄弟元素,设置其内容为小计
+		btn.parentNode.nextElementSibling
+			.innerHTML=`¥${subtotal.toFixed(2)}`
+	}//将来事件发生时: 当前按钮.onclick();
+}//btn->最后一个按钮
+
+</script>
+</body>
+</html>
