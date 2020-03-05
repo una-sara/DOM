@@ -1,0 +1,33 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>取消与利用冒泡</title>
+		<meta charset="utf-8"/>
+	</head>
+<body>
+<div id="keys">
+	<button>1</button>
+	<button>2</button>
+	<button>3</button>
+	<button>4</button><br>
+	<button>C</button>
+	<button>+</button>
+	<button>-</button>
+	<button>=</button>
+</div>
+<textarea id="sc" style="resize:none;width:200px; height:50px;" readonly></textarea>
+<script>
+keys.onclick=function(e){
+	//只有目标元素是button时
+	if(e.target.nodeName=="BUTTON"){
+		//如果点的是1、2、3、4和+、-
+			//就将当前按钮的内容追加到textarea的内容结尾
+		//如果点的是C
+			//就清空textarea的内容
+		//如果点的是=
+			//将textarea中的内容放入eval()中计算，再将结果替换回textarea中
+	}
+}
+</script>
+</body>
+</html>
