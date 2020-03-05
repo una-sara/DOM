@@ -1,0 +1,76 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>navigator对象常用属性</title>
+<meta charset="utf-8" />
+
+</head>
+<body>
+<script>
+if(navigator.cookieEnabled)
+  document.write("<h1>已启用cookie，请妥善选择保存个人信息！</h1>");
+else
+  document.write("<h1>cookie已禁用，无法记住密码！</h1>");
+//设置cookie: 设置->高级->隐私xxx->内容设置->cookie->启用/禁用第一项
+
+if(navigator.plugins["Chrome PDF Plugin"]===undefined){
+  document.write("<h1>未安装PDF插件,<a href='javascript:;'>点此下载</a></h1>")
+}else{
+  document.write("<h1>已安装PDF插件！</h1>")
+}
+if(navigator.plugins["Shockwave Flash"]===undefined){
+  document.write("<h1>未安装adobe flash插件,<a href='javascript:;'>点此下载</a></h1>")
+}else{
+  document.write("<h1>已安装adobe flash插件！</h1>")
+}
+
+//以下按钮必须用edge浏览器测试:
+//F12->仿真->用户代理字符串->切换五大浏览器:IE Chrome Firefox Safari Opera
+var ua=navigator.userAgent;
+document.write("<h1>"+ua+"</h1>");
+var browser,version;
+//先判断浏览器名称: 碰运气
+//先判断当前ua中是否包含Firefox
+//if(ua.indexOf("Firefox")!=-1)
+if(/Firefox/.test(ua))
+  //如果包含说明当前浏览器一定是Firefox
+  browser="Firefox";
+//接着判断当前ua中是否包含IE
+else if(ua.indexOf("IE")!=-1)
+  //如果包含说明当前浏览器一定是IE
+  browser="IE";
+//如果没有IE，但有Trident
+else if(ua.indexOf("Trident")!=-1)
+  //也说明是IE浏览器，且版本一定是11
+  browser="IE",version=11;
+//接着判断当前ua中是否包含OPR
+else if(ua.indexOf("OPR")!=-1)
+  //如果包含说明当前浏览器一定是OPR
+  browser="OPR";
+//接着判断当前ua中是否包含Edge
+else if(ua.indexOf("Edge")!=-1)
+  //如果包含说明当前浏览器一定是Edge
+  browser="Edge";
+//接着判断当前ua中是否包含Chrome
+else if(ua.indexOf("Chrome")!=-1)
+  //如果包含说明当前浏览器一定是Chrome
+  browser="Chrome";
+//接着判断当前ua中是否包含Safari
+else if(ua.indexOf("Safari")!=-1)
+  //如果包含说明当前浏览器一定是Safari
+  browser="Safari";
+document.write("<h1>"+browser+"</h1>")
+
+if(version===undefined){
+  //获得浏览器的版本号
+  //先获得浏览器名称在ua中的位置i
+  var i=ua.indexOf(browser);
+  //i先跳过浏览器的名称的长度，再多跳过一位
+  i+=browser.length+1;
+  //从版本号所在位置先后取3位字符串，转为整数
+  version=parseInt(ua.slice(i,i+3));
+}
+document.write("<h1>"+version+"</h1>")
+</script>
+</body>
+</html>
